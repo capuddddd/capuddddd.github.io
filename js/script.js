@@ -44,32 +44,34 @@
       title = $this.attr('data-title'),
       offset = $this.offset();
 
-    if ($('#' + id).length){
-      var box = $('#' + id);
+    if ($(document.getElementById(id)).length){
+      var box = $(document.getElementById(id));
 
       if (box.hasClass('on')){
         box.removeClass('on');
         return;
       }
     } else {
-      var html = [
-        '<div id="' + id + '" class="article-share-box">',
-          '<input class="article-share-input" value="' + url + '">',
-          '<div class="article-share-links">',
-            '<a href="https://twitter.com/intent/tweet?text=' + encodeURIComponent(title) + '&url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"><span class="fa fa-twitter"></span></a>',
-            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"><span class="fa fa-facebook"></span></a>',
-            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"><span class="fa fa-pinterest"></span></a>',
-            '<a href="https://www.linkedin.com/shareArticle?mini=true&url=' + encodedUrl + '" class="article-share-linkedin" target="_blank" title="LinkedIn"><span class="fa fa-linkedin"></span></a>',
-          '</div>',
-        '</div>'
-      ].join('');
-
-      var box = $(html);
+      var box = $('<div>').attr('id', id).addClass('article-share-box');
+      $('<input>').addClass('article-share-input').val(url).appendTo(box);
+      var links = $('<div>').addClass('article-share-links').appendTo(box);
+      var services = [
+        ['Twitter', 'twitter', 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(title) + '&url=' + encodedUrl],
+        ['Facebook', 'facebook', 'https://www.facebook.com/sharer.php?u=' + encodedUrl],
+        ['Pinterest', 'pinterest', 'https://pinterest.com/pin/create/button/?url=' + encodedUrl],
+        ['LinkedIn', 'linkedin', 'https://www.linkedin.com/shareArticle?mini=true&url=' + encodedUrl]
+      ];
+      services.forEach(function(service){
+        var link = $('<a>').attr({
+          href: service[2], target: '_blank', rel: 'noopener noreferrer', title: service[0]
+        }).addClass('article-share-' + service[1]).appendTo(links);
+        $('<span>').addClass('fa fa-' + service[1]).appendTo(link);
+      });
 
       $('body').append(box);
     }
 
-    $('.article-share-box.on').hide();
+    $('.article-share-box.on').removeClass('on');
 
     box.css({
       top: offset.top + 25,
@@ -77,7 +79,7 @@
     }).addClass('on');
   }).on('click', '.article-share-box', function(e){
     e.stopPropagation();
-  }).on('click', '.article-share-box-input', function(){
+  }).on('click', '.article-share-input', function(){
     $(this).select();
   }).on('click', '.article-share-box-link', function(e){
     e.preventDefault();
@@ -93,9 +95,11 @@
 
       var alt = this.alt;
 
-      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      if (alt) $(this).after($('<span>').addClass('caption').text(alt));
 
-      $(this).wrap('<a href="' + this.src + '" data-fancybox=\"gallery\" data-caption="' + alt + '"></a>')
+      $(this).wrap($('<a>').attr({
+        href: this.src, 'data-fancybox': 'gallery', 'data-caption': alt
+      }));
     });
 
     $(this).find('.fancybox').each(function(){
@@ -120,7 +124,7 @@
     setTimeout(function(){
       isMobileNavAnim = false;
     }, mobileNavAnimDuration);
-  }
+  };
 
   $('#main-nav-toggle').on('click', function(){
     if (isMobileNavAnim) return;
