@@ -515,3 +515,36 @@ h1,h2,h3,p {
     scroll-behavior:auto
   }
 }
+
+/* Markdown article content. */
+.article-entry > pre {
+  background: #eeeee8;
+  border: 1px solid #e2e3dc;
+  border-radius: 4px;
+  padding: 14px 18px;
+  margin: 20px 0;
+}
+.article-entry code {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+.article-entry p code, .article-entry li code {
+  background: #eeeee8;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: .9em;
+}
+.article-entry table {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 13px;
+}
+.article-entry th, .article-entry td {
+  border: 1px solid var(--line);
+  padding: 8px 12px;
+}
+.article-entry ul, .article-entry ol {
+  padding-left: 24px;
+}

@@ -14,3 +14,5 @@
 主题来源、图片授权以及自有代码的许可证，不应给整仓库随意套用一个许可证。
 
 2026-10-13 博客改版：新版页面使用原生 JavaScript 和自有 CSS，不再加载上述第三方脚本、图标 CDN 或旧背景图片。旧文件保留供历史对照；Hello World 正文仍保留原 Hexo 介绍及相关链接。
+
+构建环境依赖 Python-Markdown 3.8.2 与 PyYAML 6.0.2，版本固定在 requirements.txt；它们用于构建，不作为浏览器脚本加载。来源：[Python-Markdown](https://github.com/Python-Markdown/markdown)、[PyYAML](https://github.com/yaml/pyyaml)。
